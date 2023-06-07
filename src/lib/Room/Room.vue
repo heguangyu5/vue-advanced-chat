@@ -27,6 +27,7 @@
 			:message-selection-enabled="messageSelectionEnabled"
 			:message-selection-actions="messageSelectionActions"
 			:selected-messages-total="selectedMessages.length"
+			:room-header-extra-height="roomHeaderExtraHeight"
 			@toggle-rooms-list="$emit('toggle-rooms-list')"
 			@room-info="$emit('room-info')"
 			@menu-action-handler="$emit('menu-action-handler', $event)"
@@ -42,6 +43,7 @@
 			id="messages-list"
 			ref="scrollContainer"
 			class="vac-container-scroll"
+			:style="roomHeaderExtraHeight ? ('margin-top: ' + (65 + roomHeaderExtraHeight) + 'px') : null"
 			@scroll="onContainerScroll"
 		>
 			<loader :show="loadingMessages" type="messages">
@@ -223,7 +225,8 @@ export default {
 		scrollDistance: { type: Number, required: true },
 		templatesText: { type: Array, default: null },
 		usernameOptions: { type: Object, required: true },
-		emojiDataSource: { type: String, default: undefined }
+		emojiDataSource: { type: String, default: undefined },
+		roomHeaderExtraHeight: { type: Number, required: true }
 	},
 
 	emits: [

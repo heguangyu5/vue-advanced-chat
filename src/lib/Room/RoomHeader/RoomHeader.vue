@@ -1,7 +1,7 @@
 <template>
-	<div class="vac-room-header vac-app-border-b">
+	<div class="vac-room-header vac-app-border-b" :style="roomHeaderExtraHeight ? ('height: ' + (64 + roomHeaderExtraHeight) + 'px') : null">
 		<slot name="room-header">
-			<div class="vac-room-wrapper">
+			<div class="vac-room-wrapper" style="height: 64px">
 				<transition name="vac-slide-up">
 					<div v-if="messageSelectionEnabled" class="vac-room-selection">
 						<div
@@ -101,6 +101,9 @@
 				</template>
 			</div>
 		</slot>
+		<div v-if="roomHeaderExtraHeight" class="vac-room-wrapper">
+			<slot name="room-header-extra" />
+		</div>
 	</div>
 </template>
 
@@ -131,7 +134,8 @@ export default {
 		room: { type: Object, required: true },
 		messageSelectionEnabled: { type: Boolean, required: true },
 		messageSelectionActions: { type: Array, required: true },
-		selectedMessagesTotal: { type: Number, required: true }
+		selectedMessagesTotal: { type: Number, required: true },
+		roomHeaderExtraHeight: { type: Number, required: true }
 	},
 
 	emits: [

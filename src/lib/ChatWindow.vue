@@ -60,6 +60,7 @@
 				:is-mobile="isMobile"
 				:loading-rooms="loadingRoomsCasted"
 				:room-info-enabled="roomInfoEnabledCasted"
+				:room-header-extra-height="roomHeaderExtraHeightCasted"
 				:textarea-action-enabled="textareaActionEnabledCasted"
 				:textarea-auto-focus="textareaAutoFocusCasted"
 				:user-tags-enabled="userTagsEnabledCasted"
@@ -207,7 +208,8 @@ export default {
 			type: [Object, String],
 			default: () => ({ minUsers: 3, currentUser: false })
 		},
-		emojiDataSource: { type: String, default: undefined }
+		emojiDataSource: { type: String, default: undefined },
+		roomHeaderExtraHeight: { type: [Number, String], default: 0 }
 	},
 
 	emits: [
@@ -380,6 +382,9 @@ export default {
 		},
 		usernameOptionsCasted() {
 			return this.castObject(this.usernameOptions)
+		},
+		roomHeaderExtraHeightCasted() {
+			return this.castNumber(this.roomHeaderExtraHeight)
 		}
 	},
 
@@ -462,6 +467,9 @@ export default {
 	},
 
 	methods: {
+		castNumber(val) {
+			return typeof val === 'number' ? val : parseInt(val, 10)
+		},
 		castBoolean(val) {
 			return val === 'true' || val === true
 		},
