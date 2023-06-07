@@ -17,6 +17,9 @@
 					/>
 					<div class="vac-room-name vac-text-ellipsis">
 						{{ room.roomName }}
+						<span v-if="hasRoomDesc" class="vac-room-desc">
+							{{ room.roomDesc }}
+						</span>
 					</div>
 					<div v-if="room.lastMessage" class="vac-text-date">
 						{{ room.lastMessage.timestamp }}
@@ -143,7 +146,8 @@ export default {
 		textFormatting: { type: Object, required: true },
 		linkOptions: { type: Object, required: true },
 		textMessages: { type: Object, required: true },
-		roomActions: { type: Array, required: true }
+		roomActions: { type: Array, required: true },
+		hasRoomDesc: { type: Boolean, required: true }
 	},
 
 	emits: ['room-action-handler'],

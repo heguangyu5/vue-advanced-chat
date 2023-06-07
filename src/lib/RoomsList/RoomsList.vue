@@ -6,6 +6,7 @@
 			'vac-rooms-container-full': isMobile,
 			'vac-app-border-r': !isMobile
 		}"
+		:style="hasRoomDesc ? 'flex: 0 0 45%' : null"
 	>
 		<slot name="rooms-header" />
 
@@ -53,6 +54,7 @@
 					:link-options="linkOptions"
 					:text-messages="textMessages"
 					:room-actions="roomActions"
+					:has-room-desc="hasRoomDesc"
 					@room-action-handler="$emit('room-action-handler', $event)"
 				>
 					<template v-for="(idx, name) in $slots" #[name]="data">
@@ -95,6 +97,7 @@ export default {
 		showRoomsList: { type: Boolean, required: true },
 		showSearch: { type: Boolean, required: true },
 		showAddRoom: { type: Boolean, required: true },
+		hasRoomDesc: { type: Boolean, required: true },
 		textFormatting: { type: Object, required: true },
 		linkOptions: { type: Object, required: true },
 		isMobile: { type: Boolean, required: true },
@@ -191,6 +194,13 @@ export default {
 		searchRoom(ev) {
 			if (this.customSearchRoomEnabled) {
 				this.$emit('search-room', ev.target.value)
+			} else if (this.hasRoomDesc) {
+				let q = ev.target.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+				if (q === '') {
+					this.filteredRooms = this.rooms
+				} else {
+					this.filteredRooms = this.rooms.filter(r => r.roomName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(q) || r.roomDesc.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(q))
+				}
 			} else {
 				this.filteredRooms = filteredItems(
 					this.rooms,
